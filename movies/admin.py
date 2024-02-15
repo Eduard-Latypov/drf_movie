@@ -29,6 +29,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
     list_display = ("name", "url")
     list_display_links = ("name",)
+    prepopulated_fields = {"url": ("name",)}
 
 
 class ReviewInline(admin.TabularInline):
@@ -61,6 +62,7 @@ class MovieAdmin(admin.ModelAdmin):
     save_on_top = True
     save_as = True
     list_editable = ("draft",)
+    prepopulated_fields = {"url": ("title",)}
     actions = ["publish", "unpublish"]
     form = MovieAdminForm
     readonly_fields = ("get_image",)
@@ -117,6 +119,7 @@ class GenreAdmin(admin.ModelAdmin):
     """Жанры"""
 
     list_display = ("name", "url")
+    prepopulated_fields = {"url": ("name",)}
 
 
 @admin.register(Actor)
