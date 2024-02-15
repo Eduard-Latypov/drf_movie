@@ -4,7 +4,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Movie, Review
-from .serializers import MovieSerializer, MovieDetailSerializer, ReviewCreateSerializer
+from .serializers import (
+    MovieSerializer,
+    MovieDetailSerializer,
+    ReviewCreateSerializer,
+    CreateRatingSerializer,
+)
+from .utils import get_client_ip
 
 
 class MovieListApiView(APIView):
@@ -33,4 +39,16 @@ class ReviewCreateApiView(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddStarRatingApiView(APIView):
+    """Добавление звезды к фильму"""
+
+    def post(self, request):
+        ip = get_client_ip(request)
+        serializer = CreateRatingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(ip=ip)
+            return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
