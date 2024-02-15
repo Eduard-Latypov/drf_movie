@@ -21,12 +21,31 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class RecursiveSerializer(serializers.Serializer):
+    """Вывод рекурсивно children"""
+
+    def to_representation(self, instance):
+        serializer = ReviewSerializer(instance=instance, context=self.context)
+        return serializer.data
+
+
+class FilterReviewListSerializer(serializers.ListSerializer):
+    """Фильтр комментариев, только parents"""
+
+    def to_representation(self, data):
+        data = data.filter(parent=None)
+        return super().to_representation(data)
+
+
 class ReviewSerializer(serializers.ModelSerializer):
     """Вывод отзыва"""
 
+    children = RecursiveSerializer(many=True)
+
     class Meta:
+        list_serializer_class = FilterReviewListSerializer
         model = Review
-        fields = ("text", "name", "parent")
+        fields = ("text", "name", "children")
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
@@ -43,4 +62,3 @@ class MovieDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         exclude = ("draft",)
-
