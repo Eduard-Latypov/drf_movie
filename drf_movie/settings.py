@@ -46,10 +46,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
-    "movies",
+    "djoser",
+    "drf_yasg",
     "debug_toolbar",
     "django_filters",
-    "djoser",
+    "movies",
 ]
 
 MIDDLEWARE = [
