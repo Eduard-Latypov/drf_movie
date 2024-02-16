@@ -1,3 +1,11 @@
+from django_filters import rest_framework
+
+
+rest_framework.BaseInFilter
+rest_framework.FilterSet
+rest_framework.CharFilter
+
+
 def get_client_ip(request):
     """Получение IP пользователя"""
 
