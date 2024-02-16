@@ -28,6 +28,7 @@ urlpatterns = [
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.authtoken")),
     path("auth/", include("djoser.urls.jwt")),
+    path("auth/", include("rest_framework_social_oauth2.urls")),
     path("api/v1/", include("movies.urls", namespace="movies")),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
